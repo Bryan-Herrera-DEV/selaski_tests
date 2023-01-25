@@ -4,19 +4,17 @@ export const find = (keyboard: number[], target: number): number => {
   const digits = String(target)
     .split("")
     .map((num) => Number(num));
-  if (keyboard[0] === 0) { keyboard.shift(); }
-
   for (let i = 0; i < digits.length; i++) {
     const digit = digits[i];
-    let position = keyboard.indexOf(digit, currentPosition);
+    let position = keyboard.slice(currentPosition).indexOf(digit);
     if (position === -1) {
-      position =
-        keyboard.length - keyboard.slice().reverse().indexOf(digit) - 1;
-      time += Math.abs(position - currentPosition) + 1;
+        position = keyboard.length - keyboard.slice(0, currentPosition).reverse().indexOf(digit) - 1;
+        time += Math.abs(position - currentPosition) + 1;
     } else {
-      time += Math.abs(position - currentPosition);
+        position += currentPosition;
+        time += Math.abs(position - currentPosition);
     }
     currentPosition = position;
-  }
-  return time;
+}
+return time;
 };
